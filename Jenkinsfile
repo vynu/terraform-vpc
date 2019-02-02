@@ -6,7 +6,7 @@ environment {
     stages {
         stage('checkout repo') {
             steps {
-              git url: 'https://github.com/vynu/terraform-jenkins.git'
+              git url: 'https://github.com/vynu/terraform-vpc.git'
 
               sh "ls -lat"
               sh "pwd"
