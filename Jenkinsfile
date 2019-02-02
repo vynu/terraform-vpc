@@ -44,7 +44,21 @@ environment {
                 sh  """
                     ${TERRAFORM_CMD} apply -lock=false -input=false tfplan
                     """
-                   }
+                
+                script {
+                  timeout(time: 10, unit: 'MINUTES') {
+                    input(id: "destroy Gate", message: "Deploy ${params.project_name}?", ok: 'destroy')
+                         }
+                      }
+              }
+        }
+        
+        stage('destroy') {
+            steps {
+                sh  """
+                    ${TERRAFORM_CMD} destroy -input=false 
+                    """
+            }
         }
         
     }
