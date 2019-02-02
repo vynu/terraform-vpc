@@ -4,13 +4,20 @@ environment {
        TERRAFORM_CMD = 'docker run --network host  -w /app -v /home/ec2-user/.aws:/root/.aws  -v `pwd`:/app hashicorp/terraform:light'
     }
     stages {
+        
+        stage('clean pwd and initial tests') {
+            steps {   
+                sh "ls -lat"
+                sh "pwd"
+                sh "docker ps"
+                sh  """
+                    docker run -id -w `pwd` -v `pwd`:`pwd` alpine /bin/sh -c "rm -rf .terra*"
+                    """
+            }
+        }
         stage('checkout repo') {
             steps {
               git url: 'https://github.com/vynu/terraform-vpc.git'
-
-              sh "ls -lat"
-              sh "pwd"
-              sh "docker ps"
             }
         }
         stage('pull latest light terraform image') {
