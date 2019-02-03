@@ -20,7 +20,7 @@ environment {
                 url: 'https://github.com/vynu/terraform-vpc.git'
             }
         }
-        stage('pull latest light alpine,terraform image') {
+        stage('pull alpine,terraform image') {
             steps {
                 sh  """
                     docker pull hashicorp/terraform:light
