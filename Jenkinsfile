@@ -1,7 +1,8 @@
 pipeline {
     agent any
 environment {
-       TERRAFORM_CMD = 'docker run --network host  -w /app -v /home/ec2-user/.aws:/root/.aws  -v `pwd`:/app hashicorp/terraform:light'
+       TERRAFORM_CMD = 'docker run --network host  -w /app -v /home/ec2-user/.aws:/root/.aws  -v `pwd`:/app hashicorp/terraform:light',
+       CLEAN_CMD = 'docker run -id -w `pwd` -v `pwd`:`pwd` alpine'
     }
     stages {
         
@@ -10,9 +11,7 @@ environment {
                 sh "ls -lat"
                 sh "pwd"
                 sh "docker ps"
-                sh  """
-                    docker run -id -w `pwd` -v `pwd`:`pwd` alpine /bin/sh -c "rm -rf .terra*"
-                    """
+   
             }
         }
         stage('checkout repo') {
@@ -65,8 +64,18 @@ environment {
                 sh  """
                     ${TERRAFORM_CMD} destroy -input=false 
                     """
+                sh  """
+                    ${CLEAN_CMD} /bin/sh -c "rm -rf .terra*" 
+                    """
             }
         }
         
     }
+    post {
+    aborted {
+                sh  """
+                    ${CLEAN_CMD} /bin/sh -c "rm -rf .terra*" 
+                    """
+    }
+  }
 }
