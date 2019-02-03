@@ -16,7 +16,8 @@ environment {
         }
         stage('checkout repo') {
             steps {
-              git url: 'https://github.com/vynu/terraform-vpc.git'
+              git branch: 'master',
+                url: 'https://github.com/vynu/terraform-vpc.git'
             }
         }
         stage('pull latest light alpine,terraform image') {
