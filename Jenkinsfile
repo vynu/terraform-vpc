@@ -62,7 +62,7 @@ environment {
         stage('destroy') {
             steps {
                 sh  """
-                    ${TERRAFORM_CMD} destroy -input=false -auto-approve
+                    ${TERRAFORM_CMD} destroy -auto-approve
                     """
                 sh  """
                     ${CLEAN_CMD} /bin/sh -c "rm -rf .terra*" 
