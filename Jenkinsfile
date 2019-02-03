@@ -1,7 +1,7 @@
 pipeline {
     agent any
 environment {
-       TERRAFORM_CMD = 'docker run --network host  -w /app -v /home/ec2-user/.aws:/root/.aws  -v `pwd`:/app hashicorp/terraform:light',
+       TERRAFORM_CMD = 'docker run --network host  -w /app -v /home/ec2-user/.aws:/root/.aws  -v `pwd`:/app hashicorp/terraform:light'
        CLEAN_CMD = 'docker run -id -w `pwd` -v `pwd`:`pwd` alpine'
     }
     stages {
